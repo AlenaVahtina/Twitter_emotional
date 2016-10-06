@@ -13,7 +13,7 @@ if (empty($login) or empty($password)) //если пользователь не ввел логин или пар
     $login = trim($login);
     $password = trim($password);
     $db = new SQLite3('twitter.db');
-    $results = $db->query('SELECT * FROM users');//извлекаем из базы все данные о пользователе с введенным логином
+    $results = $db->query('SELECT * FROM users where login="'.$login.'"');//извлекаем из базы все данные о пользователе с введенным логином
  
     $myrow = $results->fetchArray();
     if (empty($myrow['pasword']))
@@ -28,7 +28,9 @@ if (empty($login) or empty($password)) //если пользователь не ввел логин или пар
     $_SESSION['current_message_id']="0";
     echo "Вы успешно вошли на сайт!  
     <br>
-    <a href='twitter.php'>Главная страница</a>";
+    <a href='twitter.php'>Главная страница</a>
+    <br>
+    <a href='upload_file.php'>Загрузить файл</a>";
     }
  else {
     //если пароли не сошлись
