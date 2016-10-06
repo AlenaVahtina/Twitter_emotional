@@ -3,7 +3,7 @@ session_start();
 $db = new SQLite3('twitter.db');
 
 if($_SESSION['current_message_id']=="0"){
-    $results = $db->query('SELECT id_message FROM apprisal where id_user='.$_SESSION['id'].' order by id_message');
+    $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id_message'];
 }
@@ -53,7 +53,7 @@ $_SESSION['m_text']=$twittet_row['m_text'];
    }
   </style>
 
-<p><img src="twitter_icon.png"></p>
+<p><img src="twitter_icon.png" alt="Mountain View" style="width:304px;height:228px;"></p>
 
 
  <p><label type="text" name="m_text">
