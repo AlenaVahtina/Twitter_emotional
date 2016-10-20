@@ -3,9 +3,18 @@ session_start();
 $db = new SQLite3('twitter.db');
 
 if($_SESSION['current_message_id']=="0"){
+    if (($db->query('SELECT COUNT(*) FROM apprisal where id_user<>0'))%2==0)
+    {
     $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id_message'];
+    }
+    
+    {
+    $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
+    $myrow = $results->fetchArray();
+    $_SESSION['current_message_id']=$myrow['id_message'];
+    }
 }
 
 if (isset($_POST['emotional'])) {
@@ -33,10 +42,6 @@ $twitt_text= $db->query('SELECT * FROM message where id='.$_SESSION['current_mes
 $twittet_row = $twitt_text->fetchArray();
 $_SESSION['m_text']=$twittet_row['m_text']; 
 
-// $bd_apprisal= $db->query('SELECT * FROM apprisal');//извлекаем из базы apprisal
-// $apprisal_row=$bd_apprisal->fetchArray();
-// $_SESSION['emotional_color']=$twittet_row['emotional_color'];
-// $_SESSION['inf_color']=$twittet_row['inf_color'];  
 ?>
 <html lang="en">
 <head>
@@ -45,15 +50,21 @@ $_SESSION['m_text']=$twittet_row['m_text'];
   <title>Emotional Twitter</title>
 </head>
 <body>
-
+<center>
   <style>
    p {
     border: 1px solid blue;
     padding: 10px;
+    width: 300px; 
+    height: 150px;
    }
   </style>
 
-<p><img src="twitter_icon.png" alt="Mountain View" style="width:304px;height:228px;"></p>
+<div align="right">
+  <a href='form.php'>Exit</a>
+</div>
+
+<img src="twitter_icon.png" alt="Mountain View" width="150" height="100">
 
 
  <p><label type="text" name="m_text">
@@ -74,15 +85,39 @@ $_SESSION['m_text']=$twittet_row['m_text'];
 
     <input type="radio" name="emotional" value="negative">
     <label for="negative">Negative</label>
+<br>
+    <input type="radio" name="emotional"  value="uninformative">
+    <label for="uninformative">Uninformative</label>
+
   </fieldset>
+<br>
+<br>
 
-  <br>
-  <input type="radio" name="emotional"  value="uninformative">
-  <label for="uninformative">Uninformative</label>
+<tr>
+<td>Extra options:</td>
+<td><input type="object_or_sentiment" name="object_or_sentiment" size=14 /></td> 
+   
+<select>
+  <option>Object</option>
+  <option>Sentiment</option>
+</select>
+       
+<select>
+  <option>Positive</option>
+  <option>Neutral</option>
+  <option>Negative</option>
+</select>
 
-  <br>
+    <td><input type="button" value="add" /></td>
+</tr>
+
+<br>
+<br>
   <td><input type="submit" value="Ok" /></td>
+<br>
+<br>
 
 </form>
+</center>
 </body>
 </html>
