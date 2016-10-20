@@ -8,7 +8,7 @@
     <br>
     <input name="userfile" type="file" />
     <br>
-    <input type="submit" value="Send File" />
+    <input type="submit" value="Отправить файл" />
 </form>
 <br>
 <a href='twitter.php'>Главная страница</a>";

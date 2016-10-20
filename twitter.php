@@ -5,13 +5,14 @@ $db = new SQLite3('twitter.db');
 if($_SESSION['current_message_id']=="0"){
     if (($db->query('SELECT COUNT(*) FROM apprisal where id_user<>0'))%2==0)
     {
-    $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
+    $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' ODER BY RANDOM() LIMIT 1');  
+    // $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id_message'];
     }
     
     {
-    $results = $db->query('SELECT id_message FROM apprisal where id_user<>'.$_SESSION['id'].' order by id_message');
+    $results = $db->query('SELECT id_message FROM apprisal where id_user==0 ODER BY RANDOM() LIMIT 1');
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id_message'];
     }
@@ -74,46 +75,42 @@ $_SESSION['m_text']=$twittet_row['m_text'];
  </label></p>
 
 <form action="/twitter.php" method="post">
-  <fieldset>
-    <legend>Select a Location: </legend>
 
     <input type="radio" name="emotional" value="positive">
-    <label for="positive">Positive</label>
+    <label for="positive">Позитивный</label>
 
     <input type="radio" name="emotional" value="neutral">
-    <label for="neutral">Neutral</label>
+    <label for="neutral">Нейтральный</label>
 
     <input type="radio" name="emotional" value="negative">
-    <label for="negative">Negative</label>
+    <label for="negative">Негативный</label>
 <br>
     <input type="radio" name="emotional"  value="uninformative">
-    <label for="uninformative">Uninformative</label>
-
-  </fieldset>
+    <label for="uninformative">Малоинформотивный</label>
 <br>
 <br>
 
 <tr>
-<td>Extra options:</td>
+<td>Дополнительные функции:</td>
 <td><input type="object_or_sentiment" name="object_or_sentiment" size=14 /></td> 
    
 <select>
-  <option>Object</option>
-  <option>Sentiment</option>
+  <option>Объект</option>
+  <option>Сентимент</option>
 </select>
        
 <select>
-  <option>Positive</option>
-  <option>Neutral</option>
-  <option>Negative</option>
+  <option>Позитивный</option>
+  <option>Нейтральный</option>
+  <option>Негативный</option>
 </select>
 
-    <td><input type="button" value="add" /></td>
+    <td><input type="button" value="Добавить" /></td>
 </tr>
 
 <br>
 <br>
-  <td><input type="submit" value="Ok" /></td>
+  <td><input type="submit" value="Ок" /></td>
 <br>
 <br>
 
