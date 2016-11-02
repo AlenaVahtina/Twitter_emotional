@@ -9,7 +9,7 @@ if($_SESSION['current_message_id']=="0"){
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id_message'];
     }else{
-    $results = $db->query('SELECT id FROM message where id not in (select id_message from apprisal)');
+    $results = $db->query('SELECT id FROM message where id not in (select id_message from apprisal) ORDER BY RANDOM() LIMIT 1');
     $myrow = $results->fetchArray();
     $_SESSION['current_message_id']=$myrow['id'];
     }
@@ -78,6 +78,29 @@ $_SESSION['m_text']=$twittet_row['m_text'];
     echo $_SESSION['m_text'];
     ?>
  </label></p>
+
+<left>
+<table>
+  <tr>
+     <td>Объект/сентимент</td>
+    <td>Оценка</td>
+  </tr>
+
+  <?php
+    $resultsObject =$db->query("SELECT * FROM emotional_flag ORDER BY id DESC LIMIT 10");
+    while($row = mysql_fetch_array($resultsObject)) {
+  ?>
+
+  <tr>
+    <td><?php echo $row['word']?></td>
+    <td><?php echo $row['emotional_color']?></td>
+  </tr>
+  
+  <?php
+    }
+  ?>
+</table>
+</left>
 
 <form action="/twitter.php" method="post">
 
