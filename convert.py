@@ -9,10 +9,8 @@ for someitem in items:
 	id_message_py="select id from message where m_text=?";
 	c.execute(id_message_py,(someitem['text'],))
 
-	if c.rowcount<1:
+	if c.fetchone() is not None:
 		query = "insert into message (m_text) values (?)"
-		print 	c.rowcount
-		print 	someitem['text']
 		keys = (someitem['text'],)
 		c.execute(query, keys)
 		db.commit()
